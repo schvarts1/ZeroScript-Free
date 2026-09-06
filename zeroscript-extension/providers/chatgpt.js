@@ -274,18 +274,47 @@ const ZSProvider = (() => {
   // element carrying --composer-surface-primary), like DeepSeek - not floating
   // above it, which is narrower than the composer and covers the page's greeting.
   //
-  // That surface lays its children out in a CSS grid whose template is
+  // That surface lays its children out in a CSS grid. A child with no grid-area
+  // gets auto-placed into a cell and steals the editor's column - validated live:
+  // the input collapsed to zero width. So does a child naming an area the
+  // template does NOT define, which is what ChatGPT's 2026-09 redesign caused:
+  // the template went from
   //   "header header header" / "leading primary trailing" / ". footer ."
-  // so a child with no grid-area gets auto-placed into a cell and steals the
-  // editor's column - validated live: the input collapsed to zero width. The
-  // `header` area is the full-width row across the top, exactly the slot we want,
-  // and it is empty by default (1px tall). overlay.css puts our bar there via
-  // `#zs-bar.zs-prov-chatgpt { grid-area: header; }`.
+  // to the single-column
+  //   "eyebrow" / "controls" / "body"
+  // and our `grid-area: header` (overlay.css) suddenly named nothing, so the bar
+  // was auto-placed into implicit tracks - a stray row at the bottom right of the
+  // composer, editor back to zero width.
+  // overlay.css now says `eyebrow`; topArea() re-derives the name from the LIVE
+  // template so the next rename costs an inline style, not a broken composer.
+  // Both templates put the full-width, empty-by-default row FIRST, which is the
+  // slot we want.
+  function topArea(box) {
+    try {
+      const t = getComputedStyle(box).gridTemplateAreas || "";
+      const first = t.match(/"([^"]+)"/);
+      // Only a first row that is ONE area edge to edge is safe to claim blindly
+      // (spelled "eyebrow" today, "header header header" before) - a top row
+      // genuinely split between several areas is not a banner slot, so leave the
+      // CSS be rather than steal a column.
+      if (first) {
+        const names = first[1].trim().split(/\s+/);
+        if (names[0] !== "." && names.every((n) => n === names[0])) return names[0];
+      }
+    } catch {}
+    return null;
+  }
+
   function barMount() {
     const ed = getEditor();
     if (!ed) return null;
     const box = ed.closest("[class*='composer-surface']");
     if (!box) return null;
+    const area = topArea(box);
+    if (area) {
+      const bar = document.getElementById("zs-bar");
+      if (bar && bar.style.gridArea !== area) bar.style.gridArea = area;
+    }
     // Skip our own bar if already mounted, otherwise we'd insert it before itself.
     let before = box.firstElementChild;
     if (before && before.id === "zs-bar") before = before.nextElementSibling;

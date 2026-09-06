@@ -2,6 +2,27 @@
 
 All notable changes to ZeroScript Free are documented here.
 
+## [1.5.4] - 2026-09-06
+
+### Fixed
+- **ChatGPT: the ZeroScript bar is back where it belongs, above the composer.**
+  ChatGPT redesigned its input box and renamed the layout slots it is built
+  from: the full-width row across the top used to be called `header` and is now
+  called `eyebrow`. ZeroScript still asked for `header`, a name that no longer
+  exists, so the browser invented a place for the bar instead - it landed in a
+  stray strip at the bottom right of the composer, and the text field itself was
+  squeezed to zero width in the process. The bar now claims the correct row, and
+  it also reads the layout live rather than trusting a fixed name, so the next
+  time ChatGPT renames its slots the bar will follow instead of breaking.
+
+### Changed
+- **ChatGPT: replies are read straight from the page again.** The same redesign
+  replaced the code-block editor that used to render each line separately and
+  cut long lines off around 2000 characters - the cause of the truncated
+  commands fixed in 1.5.1. Code blocks are now plain text with real line breaks,
+  and a 400-line block reads back whole. The workaround stays in place for
+  anyone still on the old interface.
+
 ## [1.5.3] - 2026-08-22
 
 ### Changed

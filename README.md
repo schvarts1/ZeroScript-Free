@@ -83,6 +83,11 @@ Go to https://chat.deepseek.com (recommended), https://chatgpt.com, https://gemi
 - Control play-testing
 - **Remember your project across sessions** persistent project memory saved inside your place
 
+## New in 1.5.4
+
+- **ChatGPT: the ZeroScript bar is back above the composer.** ChatGPT redesigned its input box and renamed the layout slot the bar sits in. ZeroScript kept asking for the old name, so the browser dropped the bar into a stray strip at the bottom right of the composer and squeezed the text field to nothing. The bar now takes the right row again, and it reads the layout live instead of trusting a fixed name, so the next redesign should not knock it out.
+- **ChatGPT: long commands read cleanly on the new interface.** The same redesign replaced the code-block editor that used to hide line breaks and cut long lines off - the cause of the truncated commands fixed in 1.5.1. A 400-line block now reads back whole. If you are still on the old interface, the previous workaround is untouched.
+
 ## New in 1.5.3
 
 - **Kimi moved to kimi.ai.** The old address, kimi.com, now asks for a Chinese phone number to sign in, which locked most people out. Open https://www.kimi.ai instead - the page is unchanged, the bar appears above the input box exactly as before. Reopen any Kimi tab you had on the old address.
@@ -98,16 +103,6 @@ Go to https://chat.deepseek.com (recommended), https://chatgpt.com, https://gemi
 - **A finished command is no longer stranded as "not run"** after a long reply (seen on Qwen writing for 400s and more), where the agent used to give up eight seconds after the model stopped.
 - **A clear message when ZeroScript updates while a tab is open.** This used to be reported as "the bridge stopped on your PC run start.bat", sending you to fix something that was never broken. It now tells you the page needs reloading and offers a Reload button.
 - **The AI no longer insists your bridge is offline without checking** it must run a command first before saying so.
-
-## New in 1.5.1
-
-- **ChatGPT support (chatgpt.com)** an eighth provider. Screenshots and image input are off there on purpose: ChatGPT's free tier limits files and images on a separate quota from messages, so vision would only work part of the day. The model picker and reasoning mode stay entirely your choice.
-- **ChatGPT: fixed most tool calls failing.** ChatGPT renders code blocks with an editor that keeps no line breaks in the page, so a perfectly valid command was read as one giant line and came back as "your code block was empty". Replies are now read with their real line structure.
-- **ChatGPT: fixed long commands running truncated.** Past roughly 2000-4000 characters the page only shows *part* of a long line and then stops updating, so a big command executed cut off (the tool chip's token count would climb, fall back to ~500, and freeze). ZeroScript now reads the editor's true content instead of what's drawn on screen a 5.3k-token `multi_edit` applies whole.
-- **ChatGPT: fixed the raw command text staying visible** when the model wrote it outside a code block.
-- **Meta AI: fixed big commands failing with "bad JSON".** Meta shows a JSON block in an interactive viewer that *shortens* large values - a 19k-character `multi_edit` appeared in the page as 223 characters ending in `"edits":[1 item]`, so the command was read truncated and rejected. This is also what made the tool chip's token counter collapse to ~44 tokens when the block finished rendering. Commands are now read from the viewer's Raw tab, in full.
-- **Clearer message when Roblox refuses to parse your Luau.** ZeroScript used to always blame an empty code block or a wrong `###LUA###` marker, even when a full script had been sent - so the model "fixed" something that wasn't broken and failed again. It now says how many characters were sent and names the real causes: invalid syntax, or code too large for the parser.
-- **Fixed a stylesheet error that silently disabled command hiding on GLM, Kimi, Qwen, Arena and Meta AI.**
 
 See [CHANGELOG.md](CHANGELOG.md) for older releases.
 

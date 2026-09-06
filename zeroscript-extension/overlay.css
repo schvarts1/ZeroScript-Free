@@ -95,18 +95,26 @@ html.zs-light #zs-bar.zs-bar-anchored {
 #zs-bar.zs-prov-gemini #zs-action,
 #zs-bar.zs-prov-gemini #zs-state b { font-weight: 500; }
 
-/* ChatGPT's composer surface is a CSS grid:
+/* ChatGPT's composer surface is a CSS grid. Its template was, until 2026-09:
      "header header header" / "leading primary trailing" / ". footer ."
+   and is now the single-column
+     "eyebrow" / "controls" / "body"
    The bar mounts inside it (see chatgpt.js barMount) and must claim the
-   full-width `header` row - without a grid-area it would be auto-placed into the
-   editor's cell and collapse the input to zero width. The bottom margin keeps it
-   off the input row; the negative side margins let it reach the card's padding
-   edges so it reads as part of the composer, like on DeepSeek. */
+   full-width TOP row - with an area name the template does not define, grid
+   auto-places it into implicit tracks: measured live 2026-09 on the new
+   template, `grid-area: header` grew the 1-column grid to three columns
+   (220px / 0px / 420px), pushed the bar to a stray row at the bottom right of
+   the composer and collapsed the editor to zero width.
+   The name below is the CURRENT one; chatgpt.js barMount also sets it inline
+   from the live grid-template-areas, so a rename does not have to break this.
+   The bottom margin keeps it off the input row; the negative side margins let
+   it reach the card's padding edges so it reads as part of the composer, like
+   on DeepSeek. */
 /* Selector carries .zs-bar-inline.zs-bar-inside on purpose: the generic
    `#zs-bar.zs-bar-inline.zs-bar-inside` rule above is more specific than a plain
    `#zs-bar.zs-prov-chatgpt`, so the margin below was silently losing to it. */
 #zs-bar.zs-bar-inline.zs-bar-inside.zs-prov-chatgpt {
-  grid-area: header;
+  grid-area: eyebrow;
   /* The bottom margin has to clear more than it looks: the input row's wrapper
      carries -my-2.5, so its painted box starts 10px ABOVE its grid row. At 6px
      the bar's separator line ended up 4px INSIDE that box - and therefore under
