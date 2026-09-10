@@ -83,6 +83,11 @@ Go to https://chat.deepseek.com (recommended), https://chatgpt.com, https://gemi
 - Control play-testing
 - **Remember your project across sessions** persistent project memory saved inside your place
 
+## New in 1.5.5
+
+- **DeepSeek: the agent starts again on the new unified model.** DeepSeek merged Instant, Expert and Vision into one model and removed the model picker, which left "Start Roblox agent" stuck on "DeepSeek mode not ready". ZeroScript now recognises the new chat box, switches Search off and starts, with DeepThink left on.
+- **DeepSeek: screenshots work on every chat.** Images no longer need the Vision tab (it is gone) - the unified model sees your Studio captures, one at a time or several in a row.
+
 ## New in 1.5.4
 
 - **ChatGPT: the ZeroScript bar is back above the composer.** ChatGPT redesigned its input box and renamed the layout slot the bar sits in. ZeroScript kept asking for the old name, so the browser dropped the bar into a stray strip at the bottom right of the composer and squeezed the text field to nothing. The bar now takes the right row again, and it reads the layout live instead of trusting a fixed name, so the next redesign should not knock it out.
@@ -94,15 +99,6 @@ Go to https://chat.deepseek.com (recommended), https://chatgpt.com, https://gemi
 - **DeepSeek: the Instant model can now run the agent.** Picking Instant used to leave "Start Roblox agent" spinning forever with no explanation, because only Expert and Vision were accepted. Choose Instant before starting and the session runs on it - much faster than Expert, without the reasoning pass. Images stay off on Instant just like on Expert; the Vision tab remains the only one that can see screenshots.
 - **DeepSeek: a reply written in DeepSeek's own tool-call format no longer kills the turn.** DeepSeek occasionally answers with its internal markup instead of a ZeroScript command. Nothing recognised it, so the tool never ran, the raw tags stayed on screen and the agent stopped dead with you waiting. It is now caught, hidden behind a tool chip like any other command, and DeepSeek is told to rewrite the call properly.
 - **ChatGPT: the bar no longer clips into the composer's rounded corners.**
-
-## New in 1.5.2
-
-- **ChatGPT: you can chat normally again without starting an agent.** On a blank ChatGPT tab the extension refused to let a message send until you clicked "Start Roblox agent" every other provider only suggests it, ChatGPT was the odd one out.
-- **ChatGPT: it no longer forgets it can actually run commands.** ChatGPT summarises its own context mid-session and the first thing it drops is the *mechanism* it then tells you "I can't invoke those commands in this session" while the extension sits there, ready. Its instructions are now re-stated automatically, carried along on a tool result so they cost no extra message and stay hidden from you (a "Reminder" chip marks them). Tool results are never shortened to make room.
-- **ChatGPT: an image you send is now used as reference for the work**, instead of being answered with a freshly generated picture. Ask explicitly if you *do* want an image.
-- **A finished command is no longer stranded as "not run"** after a long reply (seen on Qwen writing for 400s and more), where the agent used to give up eight seconds after the model stopped.
-- **A clear message when ZeroScript updates while a tab is open.** This used to be reported as "the bridge stopped on your PC run start.bat", sending you to fix something that was never broken. It now tells you the page needs reloading and offers a Reload button.
-- **The AI no longer insists your bridge is offline without checking** it must run a command first before saying so.
 
 See [CHANGELOG.md](CHANGELOG.md) for older releases.
 

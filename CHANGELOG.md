@@ -2,6 +2,21 @@
 
 All notable changes to ZeroScript Free are documented here.
 
+## [1.5.5] - 2026-09-10
+
+### Fixed
+- **DeepSeek: the agent starts again on DeepSeek's new unified model.**
+  DeepSeek merged Instant, Expert and Vision into a single model and removed
+  the model picker from the chat box. ZeroScript waited for one of those tabs
+  to be selected before starting, so "Start Roblox agent" stopped with
+  "DeepSeek mode not ready". A chat box with no model picker is now recognised
+  as the unified model: ZeroScript switches Search off as before, leaves
+  DeepThink on, and starts.
+- **DeepSeek: screenshots work on every chat.** Images used to need the Vision
+  tab, which no longer exists, so `screen_capture` was refused. The unified
+  model reads images, and ZeroScript now sends them - one capture or several
+  in a row. Older conversations still marked Instant or Expert stay text-only.
+
 ## [1.5.4] - 2026-09-06
 
 ### Fixed
